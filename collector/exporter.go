@@ -66,7 +66,6 @@ func New(ctx context.Context, dsn string, metrics Metrics, scrapers []scrape.Scr
 		metrics:  metrics,
 	}
 }
-
 func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 	ch <- e.metrics.ExporterUp.Desc()
 }
@@ -78,7 +77,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 //在这里开始启动所有传过来的scrapeImpl
 func (e *Exporter) scrape(ctx context.Context, ch chan<- prometheus.Metric) {
 
-	ch <- prometheus.MustNewConstMetric(	, prometheus.GaugeValue, 0.01, "version")
+	ch <- prometheus.MustNewConstMetric(scrapeDurationDesc, prometheus.GaugeValue, 0.01, "version")
 	e.metrics.ExporterUp.Set(1)
 	var wg sync.WaitGroup
 	defer wg.Wait()
